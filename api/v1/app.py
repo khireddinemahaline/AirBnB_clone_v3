@@ -3,7 +3,7 @@
     host = 0.0.0.0
     port= 50000
 """
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, make_response, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
@@ -17,6 +17,11 @@ app.register_blueprint(app_views)
 def handle(code):
     """close the storage at the end of req"""
     storage.close()
+
+
+@app.errorhandler(404)
+def not_found(error):
+    return make_response(jsonify({'error': 'Not found'}), 404)
 
 
 if __name__ == '__main__':
