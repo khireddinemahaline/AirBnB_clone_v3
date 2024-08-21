@@ -58,7 +58,7 @@ class FileStorage:
         """
         if obj:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
-            FileStorage.__objects[key] = obj
+            self.__objects[key] = obj
 
     def save(self):
         """
@@ -108,3 +108,34 @@ class FileStorage:
         Reloads the data, deserializing the JSON file.
         """
         self.reload()
+
+    def get(self, cls, id):
+        """
+        get the object dependes on the id
+        cls.id => get this object from the storage
+        """
+        get_dic = self.all(cls)
+        for key, value in get_dic.items():
+            if key == cls.__name__ + '.' + id:
+                return value
+        return None
+
+    def count(self, cls=None):
+        """
+        count the number of object have:
+            if cls : objects with the same class name
+            else : all object in the storage 
+        """
+        count = 0
+        if cls:
+            get_dic = self.all(cls)
+            for keys, value in get_dic.items():
+                key = keys.split('.')[0]
+                if key == str(cls.__name__):
+                    count = count + 1
+            return count
+        else:
+            get_dic = self.all()
+            for keys, value in get_dic.items():
+                count = count + 1
+            return count

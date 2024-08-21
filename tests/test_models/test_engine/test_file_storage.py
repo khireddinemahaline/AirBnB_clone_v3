@@ -85,6 +85,31 @@ class TestFileStorage(unittest.TestCase):
                 self.assertEqual(line, "{}")
         self.assertIs(self.storage.reload(), None)
 
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db',
+                     "not testing file storage")
+    def test_get(self):
+        """test the get method"""
+        storage = FileStorage()
+        self.assertIs(storage.get(User, "domain"), None)
+        self.assertIs(storage.get("domain", "domain"), None)
+        new_user = User()
+        new_user.save()
+        self.assertIs(storage.get(User, new_user.id), new_user)
+
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") == 'db',
+                     "not testing file storage")
+    def test_count(self):
+        """test count method"""
+        storage = FileStorage()
+        initial_length = len(storage.all())
+        self.assertEqual(storage.count(), initial_length)
+        state_len = len(storage.all(State))
+        self.assertEqual(storage.count(State), state_len)
+        new_state = State()
+        new_state.save()
+        self.assertEqual(storage.count(), initial_length + 1)
+        self.assertEqual(storage.count(State), state_len + 1)
+
 
 if __name__ == "__main__":
     unittest.main()

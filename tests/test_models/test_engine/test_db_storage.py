@@ -3,21 +3,16 @@
 Contains the TestDBStorageDocs and TestDBStorage classes
 """
 
-from datetime import datetime
 import inspect
-import models
-from models.base_model import Base
 from models.engine import db_storage
 from models.amenity import Amenity
-from models.base_model import BaseModel
 from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
-import json
-import os
 import pep8
+import os
 import unittest
 DBStorage = db_storage.DBStorage
 classes = {"Amenity": Amenity, "City": City, "Place": Place,
@@ -67,3 +62,28 @@ test_db_storage.py'])
                              "{:s} method needs a docstring".format(func[0]))
             self.assertTrue(len(func[1].__doc__) >= 1,
                             "{:s} method needs a docstring".format(func[0]))
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') != 'db',
+                     "not testing db storage")
+    def test_get(self):
+        """test the get method"""
+        storage = DBStorage()
+        self.assertIs(storage.get(User, "domain"), None)
+        self.assertIs(storage.get("domain", "domain"), None)
+        new_user = User()
+        new_user.save()
+        self.assertIs(storage.get(User, new_user.id), new_user)
+
+    @unittest.skipIf(os.getenv("HBNB_TYPE_STORAGE") != 'db',
+                     "not testing DB storage")
+    def test_count(self):
+        """test count method"""
+        storage = DBStorage()
+        initial_length = len(storage.all())
+        self.assertEqual(storage.count(), initial_length)
+        state_len = len(storage.all(State))
+        self.assertEqual(storage.count(State), state_len)
+        new_state = State()
+        new_state.save()
+        self.assertEqual(storage.count(), initial_length + 1)
+        self.assertEqual(storage.count(State), state_len + 1)
