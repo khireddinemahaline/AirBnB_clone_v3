@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """the app using flask to run on the:
     host = 0.0.0.0
-    port= 50000 
+    port= 50000
 """
 from flask import Flask, Blueprint
 from models import storage
