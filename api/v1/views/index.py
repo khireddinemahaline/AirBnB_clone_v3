@@ -15,12 +15,12 @@ from models.state import State
 from models.user import User
 
 HBNB_class = {
-  "amenities": Amenity,
-  "cities": City,
-  "places": Place,
-  "reviews": Review,
-  "states": State,
-  "users": User
+  "amenities": "Amenity",
+  "cities": "City",
+  "places": "Place",
+  "reviews": "Review",
+  "states": "State",
+  "users": "User"
 }
 
 
@@ -35,5 +35,5 @@ def count():
     """count objs stored in the storage"""
     new_dic = {}
     for key, values in HBNB_class.items():
-        new_dic[key] = storage.count(values)
+        new_dic[key] = storage.count(globals()[values])
     return jsonify(new_dic)
