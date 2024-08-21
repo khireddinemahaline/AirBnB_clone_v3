@@ -3,7 +3,6 @@
 route to api/v1/status
 using the app_views Blueprint
 """
-
 from api.v1.views import app_views
 from flask import jsonify
 
