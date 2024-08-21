@@ -6,6 +6,7 @@
 from flask import Flask, Blueprint
 from models import storage
 from api.v1.views import app_views
+import os
 
 app = Flask(__name__)
 
@@ -19,4 +20,8 @@ def handle(code):
 
 
 if __name__ == '__main__':
-    app.run(threaded=True, host="0.0.0.0", port=5000)
+    host = os.getenv('HBNB_API_HOST')
+    port = os.getenv('HBNB_API_PORT')
+
+    app.run(host=host,
+            port=port)
