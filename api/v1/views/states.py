@@ -26,12 +26,10 @@ def retrive():
                  strict_slashes=False)
 def retrive_by_id(state_id):
     """retrive state bised on the id"""
-    states = storage.all(State)
-    retrive = []
-    for key, values in states.items():
-        if state_id == key.split('.')[1]:
-            retrive.append(values.to_dict())
-    return jsonify(retrive)
+    state = storage.get(State, state_id)
+    if state is None:
+        abort(404)
+    return jsonify(state.to_dict())
 
 
 @app_views.route("/states/<string:state_id>", methods=['DELETE'],
