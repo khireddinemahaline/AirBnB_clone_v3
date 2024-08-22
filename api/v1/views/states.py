@@ -16,7 +16,7 @@ from models import storage
 def retrive():
     """retrive all state"""
     retrive = []
-    for state in storage.all(State).values()
+    for state in storage.all(State).values():
         retrive.append(state.to_dict())
     return jsonify(retrive)
 
