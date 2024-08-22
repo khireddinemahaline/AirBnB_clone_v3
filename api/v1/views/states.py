@@ -15,10 +15,9 @@ from models import storage
 @app_views.route("/states", methods=['GET'], strict_slashes=False)
 def retrive():
     """retrive all state"""
-    states = storage.all(State)
     retrive = []
-    for key, values in states.items():
-        retrive.append(values.to_dict())
+    for state in storage.all(State).values()
+        retrive.append(state.to_dict())
     return jsonify(retrive)
 
 
@@ -68,7 +67,6 @@ def ubdate(state_id):
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     for key, values in request.get_json().items():
         if key not in ['id', 'created_at', 'updated_at']:
-            if key == 'name':
-                setattr(state, key, values)
+            setattr(state, key, values)
     state.save()
     return jsonify(state.to_dict())
