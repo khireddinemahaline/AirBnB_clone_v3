@@ -1,2 +1,2 @@
 #!/usr/bin/python3
-"""app/view/__init__"""
+"""app/v1/__init__"""
