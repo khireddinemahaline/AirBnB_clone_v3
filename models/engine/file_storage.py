@@ -124,7 +124,7 @@ class FileStorage:
         """
         count the number of object have:
             if cls : objects with the same class name
-            else : all object in the storage 
+            else : all object in the storage
         """
         count = 0
         if cls:
